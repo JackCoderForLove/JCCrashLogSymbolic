@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12118" systemVersion="16C68" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12086"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController storyboardIdentifier="ViewController" id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Stack Address(栈地址)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZJB-jG-d48">
+                                <rect key="frame" x="68" y="118" width="238" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="aU8-Nm-CpV"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Slide Address" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="2X5-0X-wE4">
+                                <rect key="frame" x="68" y="220" width="238" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="6G7-Ev-Qa2"/>
+                                </constraints>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uM5-pV-nxq">
+                                <rect key="frame" x="117" y="317" width="140" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="3zk-gn-m3T"/>
+                                    <constraint firstAttribute="width" constant="140" id="bSI-tz-CXG"/>
+                                </constraints>
+                                <state key="normal" title="转换"/>
+                                <connections>
+                                    <action selector="jcCalculate:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVZ-Ua-krm"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="JC Slide Address转换器" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="X68-Jb-c2n">
+                                <rect key="frame" x="68" y="42" width="238" height="39"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="39" id="I3Y-2i-YdM"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Offset(偏移量)" textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="FpJ-EQ-4B0">
+                                <rect key="frame" x="68" y="165" width="238" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qeL-xL-Jt1">
+                                <rect key="frame" x="149" y="376" width="77" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="0co-ok-3jJ"/>
+                                    <constraint firstAttribute="width" constant="77" id="PZr-h2-NQ1"/>
+                                </constraints>
+                                <state key="normal" title="符号化日志"/>
+                                <connections>
+                                    <action selector="jcSymbolicCrashLog:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sg5-Me-5Iw"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="FpJ-EQ-4B0" firstAttribute="top" secondItem="ZJB-jG-d48" secondAttribute="bottom" constant="17" id="7DM-S0-uXm"/>
+                            <constraint firstItem="X68-Jb-c2n" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="52" id="Aa5-WB-ex4"/>
+                            <constraint firstItem="X68-Jb-c2n" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="22" id="Dqu-q6-wAz"/>
+                            <constraint firstItem="FpJ-EQ-4B0" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="52" id="Or3-iv-E4m"/>
+                            <constraint firstItem="qeL-xL-Jt1" firstAttribute="top" secondItem="uM5-pV-nxq" secondAttribute="bottom" constant="29" id="Q6e-fP-d02"/>
+                            <constraint firstItem="2X5-0X-wE4" firstAttribute="top" secondItem="FpJ-EQ-4B0" secondAttribute="bottom" constant="25" id="U3w-UK-Sak"/>
+                            <constraint firstItem="ZJB-jG-d48" firstAttribute="top" secondItem="X68-Jb-c2n" secondAttribute="bottom" constant="37" id="YzB-TD-y1J"/>
+                            <constraint firstItem="2X5-0X-wE4" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="52" id="ZUs-9g-lnM"/>
+                            <constraint firstItem="qeL-xL-Jt1" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="bRa-26-nhv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FpJ-EQ-4B0" secondAttribute="trailing" constant="53" id="feL-zE-3HS"/>
+                            <constraint firstItem="uM5-pV-nxq" firstAttribute="top" secondItem="2X5-0X-wE4" secondAttribute="bottom" constant="67" id="hBU-lY-gym"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="X68-Jb-c2n" secondAttribute="trailing" constant="53" id="mTK-zW-Q8s"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="ZJB-jG-d48" secondAttribute="trailing" constant="53" id="mkH-uy-P8p"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="2X5-0X-wE4" secondAttribute="trailing" constant="53" id="o1b-VF-br4"/>
+                            <constraint firstItem="uM5-pV-nxq" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="oeQ-2X-YpA"/>
+                            <constraint firstItem="ZJB-jG-d48" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="52" id="olW-2y-BJi"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="jcOffsetTF" destination="FpJ-EQ-4B0" id="ZkR-no-S09"/>
+                        <outlet property="jcResultTF" destination="2X5-0X-wE4" id="ZjA-Jd-Pv3"/>
+                        <outlet property="jcSourceTF" destination="ZJB-jG-d48" id="Xag-uG-rqt"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="138.98050974512745"/>
+        </scene>
+    </scenes>
+</document>
