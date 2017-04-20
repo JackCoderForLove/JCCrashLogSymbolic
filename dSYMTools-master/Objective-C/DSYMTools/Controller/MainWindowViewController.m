@@ -410,35 +410,77 @@
 }
 - (void)jcDataSymbolic
 {
-//    //读取日志文件
+    //    //读取日志文件
     NSString *jcPath = [[NSBundle mainBundle]pathForResource:@"UncaughtException" ofType:@"log"];
     NSString *jcLog = [NSString stringWithContentsOfFile:jcPath encoding:NSUTF8StringEncoding error:nil];
     NSMutableArray *aArray = (NSMutableArray*)[jcLog componentsSeparatedByString:@"\n"];
-    //NSLog(@"拆分之后的数组：%@------拆分之后的数组个数：%ld",aArray,aArray.count);
-    //for循环打印
-    for (int i = 0; i<aArray.count; i++) {
-       __block NSString * jcStr = [aArray objectAtIndex:i];
-        //        NSLog(@"第%d项-----内容:%@",i+1,jcStr);
-        if ([jcStr rangeOfString:@"+"].location!=NSNotFound) {
-            // NSLog(@"第%d项-----内容:%@",i+1,jcStr);
-            NSRange  jcRange = [jcStr rangeOfString:@"0x"];
-            NSString * jcAdC = [jcStr substringWithRange:NSMakeRange(jcRange.location, 18)];
-            //NSLog(@"第%d项-----内容:%@------出自：--%@",i+1,jcAdC,jcStr);
-            //进行替换
-            NSString *commandString = [NSString stringWithFormat:@"xcrun atos -arch %@ -o \"%@\" -l %@ %@", self.selectedUUIDInfo.arch, self.selectedUUIDInfo.executableFilePath, self.defaultSlideAddressLabel.stringValue, jcAdC];
-            __block NSString * result ;
-            result = [self runCommand:commandString];
-            jcStr = [jcStr stringByReplacingOccurrencesOfString:jcAdC withString:result];
-            [aArray replaceObjectAtIndex:i withObject:jcStr];
-
-        }
+    
+    NSMutableDictionary *lineDic = nil;
+    
+    lineDic = [[NSMutableDictionary alloc]initWithDictionary:[self createLineDictionary:aArray]];
+    
+    if (!lineDic) {
+        return;
     }
-    NSLog(@"数据替换之后：---%@",aArray);
-    self.crashString = [aArray componentsJoinedByString:@","];
-    self.crashString = [self.crashString stringByReplacingOccurrencesOfString:@"," withString:@"\n"];
-    [self.errorMessageView setString:self.crashString];
-
+    
+    
+    dispatch_queue_t analyzeQueue = dispatch_queue_create("AnalyzeQueue", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_group_t analyzeGroup = dispatch_group_create();
+    NSLock *lock = [[NSLock alloc]init];
+    __block typeof(self) weakself = self;
+    __block NSString *jcCommandString = [NSString stringWithFormat:@"xcrun atos -arch %@ -o \"%@\" -l %@ ",self.selectedUUIDInfo.arch, self.selectedUUIDInfo.executableFilePath, self.defaultSlideAddressLabel.stringValue];
+    
+    for (int i = 0; i < lineDic.count; i++) {
+        
+        dispatch_group_async(analyzeGroup,analyzeQueue, ^{
+            NSString *jcStr = [lineDic objectForKey:[NSNumber numberWithInt:i]];
+            if ([jcStr rangeOfString:@"+"].location!=NSNotFound) {
+                // NSLog(@"第%d项-----内容:%@",i+1,jcStr);
+                NSRange  jcRange = [jcStr rangeOfString:@"0x"];
+                NSString * jcAdC = [jcStr substringWithRange:NSMakeRange(jcRange.location, 18)];
+                //NSLog(@"第%d项-----内容:%@------出自：--%@",i+1,jcAdC,jcStr);
+                //进行替换
+                NSString *commandString = [NSString stringWithFormat:@"%@ %@",jcCommandString, jcAdC];
+                NSString * result ;
+                NSLog(@"%@",commandString);
+                result = [self runCommand:commandString];
+                jcStr = [jcStr stringByReplacingOccurrencesOfString:jcAdC withString:result];
+                NSLog(@"%@",result);
+                [lock lock];
+                [lineDic setObject:jcStr forKey:[NSNumber numberWithInt:i]];
+                [lock unlock];
+                
+            }
+            
+        });
+        dispatch_group_notify(analyzeGroup, dispatch_get_main_queue(), ^{
+            weakself.crashString = [NSString string];
+            for (int i = 0; i < lineDic.count; i++) {
+                weakself.crashString = [NSString stringWithFormat:@"%@%@\n",weakself.crashString,[lineDic objectForKey:[NSNumber numberWithInt:i]]];
+            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakself.errorMessageView setString:weakself.crashString];
+                
+            });
+            
+            
+            
+        });
+        
+        
+    }
+    
 }
+- (NSDictionary *)createLineDictionary:(NSArray *)arr
+{
+    NSMutableDictionary *dic = [[NSMutableDictionary alloc]init];
+    for (int i = 0; i < arr.count; i++) {
+        [dic setObject:[NSString stringWithFormat:@"%@",[arr objectAtIndex:i]] forKey:[NSNumber numberWithInt:i]];
+    }
+    return dic;
+}
+
 //导出并保存符号化日志
 - (IBAction)jcExportSymbolicLog:(id)sender {
     
